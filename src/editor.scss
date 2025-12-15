@@ -1,0 +1,38 @@
+.splide-block-editor {
+    padding: 20px;
+    border: 2px dashed #ccc;
+    text-align: center;
+
+    .splide-block-upload-button {
+        margin-bottom: 20px;
+    }
+
+    .splide-block-preview {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+
+        .splide-block-image-item {
+            position: relative;
+            border: 1px solid #ddd;
+            padding: 10px;
+
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .components-base-control {
+                margin-bottom: 10px;
+                text-align: left;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
