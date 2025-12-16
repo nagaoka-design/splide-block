@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Splide Block
  * Description: Splideスライドショー・カルーセルブロック
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Nagaoka Design Office
  * Author URI: https://nag-design.com
  * License: GPL-2.0-or-later
@@ -142,6 +142,10 @@ function splide_block_enqueue_frontend()
                     
                     if (element.dataset.breakpoints) {
                         options.breakpoints = JSON.parse(element.dataset.breakpoints);
+                    }
+                    
+                    if (element.dataset.mediaquery) {
+                        options.mediaQuery = element.dataset.mediaquery;
                     }
                     
                     console.log("Splide初期化:", options);

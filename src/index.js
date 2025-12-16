@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { Button, PanelBody, ToggleControl, RangeControl, SelectControl, TextControl } from '@wordpress/components';
+import { Button, PanelBody, ToggleControl, RangeControl, SelectControl, TextControl, RadioControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
@@ -30,6 +30,10 @@ registerBlockType('custom/splide-block', {
             default: 1
         },
         // レスポンシブ設定
+        mediaQuery: {
+            type: 'string',
+            default: 'max'
+        },
         perPageTablet: {
             type: 'number',
             default: 2
@@ -133,7 +137,7 @@ registerBlockType('custom/splide-block', {
     edit: (props) => {
         const { attributes, setAttributes } = props;
         const {
-            images, autoplay, interval, type, perPage,
+            images, autoplay, interval, type, perPage, mediaQuery,
             perPageTablet, perPageMobile, breakpointTablet, breakpointMobile,
             height, heightRatio, heightRatioTablet, heightRatioMobile, fixedWidth, fixedHeight,
             fixedWidthTablet, fixedHeightTablet, fixedWidthMobile, fixedHeightMobile,
@@ -209,6 +213,23 @@ registerBlockType('custom/splide-block', {
                     </PanelBody>
 
                     <PanelBody title={__('レスポンシブ設定', 'splide-block')} initialOpen={false}>
+                        <RadioControl
+                            label={__('レスポンシブモード', 'splide-block')}
+                            selected={mediaQuery}
+                            options={[
+                                { label: 'デスクトップファースト（max-width）', value: 'max' },
+                                { label: 'モバイルファースト（min-width）', value: 'min' }
+                            ]}
+                            onChange={(value) => setAttributes({ mediaQuery: value })}
+                            help={
+                                mediaQuery === 'max'
+                                    ? 'デフォルト設定が最も広い画面用になります。ブレークポイントは「◯◯px以下」の意味です。'
+                                    : 'デフォルト設定が最も狭い画面用になります。ブレークポイントは「◯◯px以上」の意味です。'
+                            }
+                        />
+
+                        <hr style={{ margin: '20px 0' }} />
+
                         <h3>{__('PC設定', 'splide-block')}</h3>
                         <RangeControl
                             label={__('表示枚数', 'splide-block')}
@@ -243,7 +264,7 @@ registerBlockType('custom/splide-block', {
 
                         <h3>{__('タブレット設定', 'splide-block')}</h3>
                         <RangeControl
-                            label={__('ブレークポイント（px）', 'splide-block')}
+                            label={mediaQuery === 'max' ? __('ブレークポイント（px以下）', 'splide-block') : __('ブレークポイント（px以上）', 'splide-block')}
                             value={breakpointTablet}
                             onChange={(value) => setAttributes({ breakpointTablet: value })}
                             min={600}
@@ -283,7 +304,7 @@ registerBlockType('custom/splide-block', {
 
                         <h3>{__('モバイル設定', 'splide-block')}</h3>
                         <RangeControl
-                            label={__('ブレークポイント（px）', 'splide-block')}
+                            label={mediaQuery === 'max' ? __('ブレークポイント（px以下）', 'splide-block') : __('ブレークポイント（px以上）', 'splide-block')}
                             value={breakpointMobile}
                             onChange={(value) => setAttributes({ breakpointMobile: value })}
                             min={320}
@@ -453,7 +474,7 @@ registerBlockType('custom/splide-block', {
     save: (props) => {
         const { attributes } = props;
         const {
-            images, autoplay, interval, type, perPage,
+            images, autoplay, interval, type, perPage, mediaQuery,
             perPageTablet, perPageMobile, breakpointTablet, breakpointMobile,
             height, heightRatio, heightRatioTablet, heightRatioMobile, fixedWidth, fixedHeight,
             fixedWidthTablet, fixedHeightTablet, fixedWidthMobile, fixedHeightMobile,
@@ -503,6 +524,7 @@ registerBlockType('custom/splide-block', {
                 data-autoplay={autoplay}
                 data-interval={interval}
                 data-perpage={perPage}
+                data-mediaquery={mediaQuery}
                 data-gap={gap}
                 data-padding={padding}
                 data-arrows={arrows}
