@@ -3,7 +3,7 @@ Contributors: Nagaoka Design Office
 Tags: slider, carousel, block, gutenberg, splide
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,3 +17,12 @@ WordPress ブロックエディター用の Splide スライドショー・カ�
 == Third-party Libraries ==
 
 This plugin uses Splide.js (https://splidejs.com/) licensed under MIT License.
+
+== Changelog ==
+
+= 1.1.0 =
+- レスポンシブ用の `mediaQuery` オプションを追加（max / min の切替）
+- レスポンシブ設定周りの改善
+
+= 1.0.0 =
+- 初回リリース
