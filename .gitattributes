@@ -6,3 +6,5 @@
 /README.md export-ignore
 /LICENSE.txt export-ignore
 /.DS_Store export-ignore
+*.zip export-ignore
+dist/** export-ignore

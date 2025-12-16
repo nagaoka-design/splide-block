@@ -21,8 +21,10 @@ This plugin uses Splide.js (https://splidejs.com/) licensed under MIT License.
 == Changelog ==
 
 = 1.1.0 =
+
 - Add `mediaQuery` option to control responsive mode (max/min)
 - Improve responsive settings handling
 
 = 1.0.0 =
+
 - Initial release
