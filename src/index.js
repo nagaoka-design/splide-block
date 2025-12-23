@@ -230,115 +230,233 @@ registerBlockType('custom/splide-block', {
 
                         <hr style={{ margin: '20px 0' }} />
 
-                        <h3>{__('PC設定', 'splide-block')}</h3>
-                        <RangeControl
-                            label={__('表示枚数', 'splide-block')}
-                            value={perPage}
-                            onChange={(value) => setAttributes({ perPage: value })}
-                            min={1}
-                            max={6}
-                        />
-                        <RangeControl
-                            label={__('高さ比率（heightRatio）', 'splide-block')}
-                            value={heightRatio}
-                            onChange={(value) => setAttributes({ heightRatio: value })}
-                            min={0}
-                            max={3}
-                            step={0.05}
-                            help="0の場合は無効。0.5625 = 16:9, 1 = 正方形, 1.7778 = 9:16"
-                        />
-                        <TextControl
-                            label={__('スライドの幅（個別）', 'splide-block')}
-                            value={fixedWidth}
-                            onChange={(value) => setAttributes({ fixedWidth: value })}
-                            help="例: 300px"
-                        />
-                        <TextControl
-                            label={__('スライドの高さ（個別）', 'splide-block')}
-                            value={fixedHeight}
-                            onChange={(value) => setAttributes({ fixedHeight: value })}
-                            help="例: 200px"
-                        />
+                        {/* デスクトップファースト（max-width）の場合: PC → タブレット → モバイル */}
+                        {/* モバイルファースト（min-width）の場合: モバイル → タブレット → PC */}
+                        {mediaQuery === 'max' ? (
+                            <>
+                                <h3>{__('PC設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPage}
+                                    onChange={(value) => setAttributes({ perPage: value })}
+                                    min={1}
+                                    max={6}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatio}
+                                    onChange={(value) => setAttributes({ heightRatio: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効。0.5625 = 16:9, 1 = 正方形, 1.7778 = 9:16"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidth}
+                                    onChange={(value) => setAttributes({ fixedWidth: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeight}
+                                    onChange={(value) => setAttributes({ fixedHeight: value })}
+                                    help="例: 200px"
+                                />
 
-                        <hr style={{ margin: '20px 0' }} />
+                                <hr style={{ margin: '20px 0' }} />
 
-                        <h3>{__('タブレット設定', 'splide-block')}</h3>
-                        <RangeControl
-                            label={mediaQuery === 'max' ? __('ブレークポイント（px以下）', 'splide-block') : __('ブレークポイント（px以上）', 'splide-block')}
-                            value={breakpointTablet}
-                            onChange={(value) => setAttributes({ breakpointTablet: value })}
-                            min={600}
-                            max={1200}
-                            step={10}
-                        />
-                        <RangeControl
-                            label={__('表示枚数', 'splide-block')}
-                            value={perPageTablet}
-                            onChange={(value) => setAttributes({ perPageTablet: value })}
-                            min={1}
-                            max={5}
-                        />
-                        <RangeControl
-                            label={__('高さ比率（heightRatio）', 'splide-block')}
-                            value={heightRatioTablet}
-                            onChange={(value) => setAttributes({ heightRatioTablet: value })}
-                            min={0}
-                            max={3}
-                            step={0.05}
-                            help="0の場合は無効"
-                        />
-                        <TextControl
-                            label={__('スライドの幅（個別）', 'splide-block')}
-                            value={fixedWidthTablet}
-                            onChange={(value) => setAttributes({ fixedWidthTablet: value })}
-                            help="例: 300px"
-                        />
-                        <TextControl
-                            label={__('スライドの高さ（個別）', 'splide-block')}
-                            value={fixedHeightTablet}
-                            onChange={(value) => setAttributes({ fixedHeightTablet: value })}
-                            help="例: 200px"
-                        />
+                                <h3>{__('タブレット設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('ブレークポイント（px以下）', 'splide-block')}
+                                    value={breakpointTablet}
+                                    onChange={(value) => setAttributes({ breakpointTablet: value })}
+                                    min={600}
+                                    max={1200}
+                                    step={1}
+                                />
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPageTablet}
+                                    onChange={(value) => setAttributes({ perPageTablet: value })}
+                                    min={1}
+                                    max={5}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatioTablet}
+                                    onChange={(value) => setAttributes({ heightRatioTablet: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidthTablet}
+                                    onChange={(value) => setAttributes({ fixedWidthTablet: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeightTablet}
+                                    onChange={(value) => setAttributes({ fixedHeightTablet: value })}
+                                    help="例: 200px"
+                                />
 
-                        <hr style={{ margin: '20px 0' }} />
+                                <hr style={{ margin: '20px 0' }} />
 
-                        <h3>{__('モバイル設定', 'splide-block')}</h3>
-                        <RangeControl
-                            label={mediaQuery === 'max' ? __('ブレークポイント（px以下）', 'splide-block') : __('ブレークポイント（px以上）', 'splide-block')}
-                            value={breakpointMobile}
-                            onChange={(value) => setAttributes({ breakpointMobile: value })}
-                            min={320}
-                            max={800}
-                            step={10}
-                        />
-                        <RangeControl
-                            label={__('表示枚数', 'splide-block')}
-                            value={perPageMobile}
-                            onChange={(value) => setAttributes({ perPageMobile: value })}
-                            min={1}
-                            max={3}
-                        />
-                        <RangeControl
-                            label={__('高さ比率（heightRatio）', 'splide-block')}
-                            value={heightRatioMobile}
-                            onChange={(value) => setAttributes({ heightRatioMobile: value })}
-                            min={0}
-                            max={3}
-                            step={0.05}
-                            help="0の場合は無効"
-                        />
-                        <TextControl
-                            label={__('スライドの幅（個別）', 'splide-block')}
-                            value={fixedWidthMobile}
-                            onChange={(value) => setAttributes({ fixedWidthMobile: value })}
-                            help="例: 300px"
-                        />
-                        <TextControl
-                            label={__('スライドの高さ（個別）', 'splide-block')}
-                            value={fixedHeightMobile}
-                            onChange={(value) => setAttributes({ fixedHeightMobile: value })}
-                            help="例: 200px"
-                        />
+                                <h3>{__('モバイル設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('ブレークポイント（px以下）', 'splide-block')}
+                                    value={breakpointMobile}
+                                    onChange={(value) => setAttributes({ breakpointMobile: value })}
+                                    min={320}
+                                    max={800}
+                                    step={1}
+                                />
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPageMobile}
+                                    onChange={(value) => setAttributes({ perPageMobile: value })}
+                                    min={1}
+                                    max={3}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatioMobile}
+                                    onChange={(value) => setAttributes({ heightRatioMobile: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidthMobile}
+                                    onChange={(value) => setAttributes({ fixedWidthMobile: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeightMobile}
+                                    onChange={(value) => setAttributes({ fixedHeightMobile: value })}
+                                    help="例: 200px"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <h3>{__('モバイル設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('ブレークポイント（px以上）', 'splide-block')}
+                                    value={breakpointMobile}
+                                    onChange={(value) => setAttributes({ breakpointMobile: value })}
+                                    min={320}
+                                    max={800}
+                                    step={1}
+                                />
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPageMobile}
+                                    onChange={(value) => setAttributes({ perPageMobile: value })}
+                                    min={1}
+                                    max={3}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatioMobile}
+                                    onChange={(value) => setAttributes({ heightRatioMobile: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidthMobile}
+                                    onChange={(value) => setAttributes({ fixedWidthMobile: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeightMobile}
+                                    onChange={(value) => setAttributes({ fixedHeightMobile: value })}
+                                    help="例: 200px"
+                                />
+
+                                <hr style={{ margin: '20px 0' }} />
+
+                                <h3>{__('タブレット設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('ブレークポイント（px以上）', 'splide-block')}
+                                    value={breakpointTablet}
+                                    onChange={(value) => setAttributes({ breakpointTablet: value })}
+                                    min={600}
+                                    max={1200}
+                                    step={1}
+                                />
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPageTablet}
+                                    onChange={(value) => setAttributes({ perPageTablet: value })}
+                                    min={1}
+                                    max={5}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatioTablet}
+                                    onChange={(value) => setAttributes({ heightRatioTablet: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidthTablet}
+                                    onChange={(value) => setAttributes({ fixedWidthTablet: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeightTablet}
+                                    onChange={(value) => setAttributes({ fixedHeightTablet: value })}
+                                    help="例: 200px"
+                                />
+
+                                <hr style={{ margin: '20px 0' }} />
+
+                                <h3>{__('PC設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('表示枚数', 'splide-block')}
+                                    value={perPage}
+                                    onChange={(value) => setAttributes({ perPage: value })}
+                                    min={1}
+                                    max={6}
+                                />
+                                <RangeControl
+                                    label={__('高さ比率（heightRatio）', 'splide-block')}
+                                    value={heightRatio}
+                                    onChange={(value) => setAttributes({ heightRatio: value })}
+                                    min={0}
+                                    max={3}
+                                    step={0.0001}
+                                    help="0の場合は無効。0.5625 = 16:9, 1 = 正方形, 1.7778 = 9:16"
+                                />
+                                <TextControl
+                                    label={__('スライドの幅（個別）', 'splide-block')}
+                                    value={fixedWidth}
+                                    onChange={(value) => setAttributes({ fixedWidth: value })}
+                                    help="例: 300px"
+                                />
+                                <TextControl
+                                    label={__('スライドの高さ（個別）', 'splide-block')}
+                                    value={fixedHeight}
+                                    onChange={(value) => setAttributes({ fixedHeight: value })}
+                                    help="例: 200px"
+                                />
+                            </>
+                        )}
                     </PanelBody>
 
                     <PanelBody title={__('サイズ設定', 'splide-block')} initialOpen={false}>
