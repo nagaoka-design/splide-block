@@ -1,6 +1,6 @@
 {
-  "name": "splide-block-plugin",
-  "version": "1.1.0",
+  "name": "splide-block",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {

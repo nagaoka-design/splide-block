@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Splide Block
  * Description: Splideスライドショー・カルーセルブロック
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Nagaoka Design Office
  * Author URI: https://nag-design.com
  * License: GPL-2.0-or-later
