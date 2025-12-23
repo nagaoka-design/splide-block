@@ -234,7 +234,7 @@ registerBlockType('custom/splide-block', {
                         {/* モバイルファースト（min-width）の場合: モバイル → タブレット → PC */}
                         {mediaQuery === 'max' ? (
                             <>
-                                <h3>{__('PC設定', 'splide-block')}</h3>
+                                <h3>{__('PC設定（デフォルト）', 'splide-block')}</h3>
                                 <RangeControl
                                     label={__('表示枚数', 'splide-block')}
                                     value={perPage}
@@ -346,15 +346,7 @@ registerBlockType('custom/splide-block', {
                             </>
                         ) : (
                             <>
-                                <h3>{__('モバイル設定', 'splide-block')}</h3>
-                                <RangeControl
-                                    label={__('ブレークポイント（px以上）', 'splide-block')}
-                                    value={breakpointMobile}
-                                    onChange={(value) => setAttributes({ breakpointMobile: value })}
-                                    min={320}
-                                    max={800}
-                                    step={1}
-                                />
+                                <h3>{__('モバイル設定（デフォルト）', 'splide-block')}</h3>
                                 <RangeControl
                                     label={__('表示枚数', 'splide-block')}
                                     value={perPageMobile}
@@ -389,10 +381,10 @@ registerBlockType('custom/splide-block', {
                                 <h3>{__('タブレット設定', 'splide-block')}</h3>
                                 <RangeControl
                                     label={__('ブレークポイント（px以上）', 'splide-block')}
-                                    value={breakpointTablet}
-                                    onChange={(value) => setAttributes({ breakpointTablet: value })}
-                                    min={600}
-                                    max={1200}
+                                    value={breakpointMobile}
+                                    onChange={(value) => setAttributes({ breakpointMobile: value })}
+                                    min={320}
+                                    max={800}
                                     step={1}
                                 />
                                 <RangeControl
@@ -427,6 +419,14 @@ registerBlockType('custom/splide-block', {
                                 <hr style={{ margin: '20px 0' }} />
 
                                 <h3>{__('PC設定', 'splide-block')}</h3>
+                                <RangeControl
+                                    label={__('ブレークポイント（px以上）', 'splide-block')}
+                                    value={breakpointTablet}
+                                    onChange={(value) => setAttributes({ breakpointTablet: value })}
+                                    min={600}
+                                    max={1200}
+                                    step={1}
+                                />
                                 <RangeControl
                                     label={__('表示枚数', 'splide-block')}
                                     value={perPage}
@@ -606,32 +606,72 @@ registerBlockType('custom/splide-block', {
 
         // レスポンシブ設定をJSONで作成
         const breakpoints = {};
-        if (breakpointTablet > 0) {
-            breakpoints[breakpointTablet] = {
-                perPage: perPageTablet
-            };
-            if (heightRatioTablet > 0) {
-                breakpoints[breakpointTablet].heightRatio = heightRatioTablet;
+
+        if (mediaQuery === 'max') {
+            // デスクトップファースト（max-width）
+            // デフォルト = PC設定（perPage）
+            // breakpointTablet以下 = タブレット設定（perPageTablet）
+            // breakpointMobile以下 = モバイル設定（perPageMobile）
+            if (breakpointTablet > 0) {
+                breakpoints[breakpointTablet] = {
+                    perPage: perPageTablet
+                };
+                if (heightRatioTablet > 0) {
+                    breakpoints[breakpointTablet].heightRatio = heightRatioTablet;
+                }
+                if (fixedWidthTablet) {
+                    breakpoints[breakpointTablet].fixedWidth = fixedWidthTablet;
+                }
+                if (fixedHeightTablet) {
+                    breakpoints[breakpointTablet].fixedHeight = fixedHeightTablet;
+                }
             }
-            if (fixedWidthTablet) {
-                breakpoints[breakpointTablet].fixedWidth = fixedWidthTablet;
+            if (breakpointMobile > 0) {
+                breakpoints[breakpointMobile] = {
+                    perPage: perPageMobile
+                };
+                if (heightRatioMobile > 0) {
+                    breakpoints[breakpointMobile].heightRatio = heightRatioMobile;
+                }
+                if (fixedWidthMobile) {
+                    breakpoints[breakpointMobile].fixedWidth = fixedWidthMobile;
+                }
+                if (fixedHeightMobile) {
+                    breakpoints[breakpointMobile].fixedHeight = fixedHeightMobile;
+                }
             }
-            if (fixedHeightTablet) {
-                breakpoints[breakpointTablet].fixedHeight = fixedHeightTablet;
+        } else {
+            // モバイルファースト（min-width）
+            // デフォルト = モバイル設定（perPageMobile）
+            // breakpointMobile以上 = タブレット設定（perPageTablet）
+            // breakpointTablet以上 = PC設定（perPage）
+            if (breakpointMobile > 0) {
+                breakpoints[breakpointMobile] = {
+                    perPage: perPageTablet
+                };
+                if (heightRatioTablet > 0) {
+                    breakpoints[breakpointMobile].heightRatio = heightRatioTablet;
+                }
+                if (fixedWidthTablet) {
+                    breakpoints[breakpointMobile].fixedWidth = fixedWidthTablet;
+                }
+                if (fixedHeightTablet) {
+                    breakpoints[breakpointMobile].fixedHeight = fixedHeightTablet;
+                }
             }
-        }
-        if (breakpointMobile > 0) {
-            breakpoints[breakpointMobile] = {
-                perPage: perPageMobile
-            };
-            if (heightRatioMobile > 0) {
-                breakpoints[breakpointMobile].heightRatio = heightRatioMobile;
-            }
-            if (fixedWidthMobile) {
-                breakpoints[breakpointMobile].fixedWidth = fixedWidthMobile;
-            }
-            if (fixedHeightMobile) {
-                breakpoints[breakpointMobile].fixedHeight = fixedHeightMobile;
+            if (breakpointTablet > 0) {
+                breakpoints[breakpointTablet] = {
+                    perPage: perPage
+                };
+                if (heightRatio > 0) {
+                    breakpoints[breakpointTablet].heightRatio = heightRatio;
+                }
+                if (fixedWidth) {
+                    breakpoints[breakpointTablet].fixedWidth = fixedWidth;
+                }
+                if (fixedHeight) {
+                    breakpoints[breakpointTablet].fixedHeight = fixedHeight;
+                }
             }
         }
 
@@ -641,7 +681,7 @@ registerBlockType('custom/splide-block', {
                 data-type={type}
                 data-autoplay={autoplay}
                 data-interval={interval}
-                data-perpage={perPage}
+                data-perpage={mediaQuery === 'max' ? perPage : perPageMobile}
                 data-mediaquery={mediaQuery}
                 data-gap={gap}
                 data-padding={padding}
@@ -652,9 +692,9 @@ registerBlockType('custom/splide-block', {
                 data-drag={drag}
                 data-keyboard={keyboard}
                 data-height={height}
-                data-heightratio={heightRatio > 0 ? heightRatio : ''}
-                data-fixedwidth={fixedWidth}
-                data-fixedheight={fixedHeight}
+                data-heightratio={mediaQuery === 'max' ? (heightRatio > 0 ? heightRatio : '') : (heightRatioMobile > 0 ? heightRatioMobile : '')}
+                data-fixedwidth={mediaQuery === 'max' ? fixedWidth : fixedWidthMobile}
+                data-fixedheight={mediaQuery === 'max' ? fixedHeight : fixedHeightMobile}
                 data-objectfit={objectFit}
                 data-cssmode={cssMode}
                 data-breakpoints={Object.keys(breakpoints).length > 0 ? JSON.stringify(breakpoints) : ''}
