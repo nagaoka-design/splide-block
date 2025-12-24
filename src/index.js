@@ -156,7 +156,7 @@ registerBlockType('custom/splide-block', {
 
         // プリセット一覧を取得
         useEffect(() => {
-            apiFetch({ path: '/wp-json/splide-block/v1/presets' })
+            apiFetch({ path: '/splide-block/v1/presets' })
                 .then((data) => {
                     setPresets(data);
                 })
@@ -192,7 +192,7 @@ registerBlockType('custom/splide-block', {
             const { images, ...settingsToSave } = attributes;
 
             apiFetch({
-                path: '/wp-json/splide-block/v1/presets',
+                path: '/splide-block/v1/presets',
                 method: 'POST',
                 data: {
                     name: newPresetName,
@@ -204,7 +204,7 @@ registerBlockType('custom/splide-block', {
                     setMessageType('success');
                     setNewPresetName('');
                     // プリセット一覧を再取得
-                    return apiFetch({ path: '/wp-json/splide-block/v1/presets' });
+                    return apiFetch({ path: '/splide-block/v1/presets' });
                 })
                 .then((data) => {
                     setPresets(data);
@@ -230,7 +230,7 @@ registerBlockType('custom/splide-block', {
             }
 
             apiFetch({
-                path: `/wp-json/splide-block/v1/presets/${selectedPreset}`,
+                path: `/splide-block/v1/presets/${selectedPreset}`,
                 method: 'DELETE'
             })
                 .then((response) => {
@@ -238,7 +238,7 @@ registerBlockType('custom/splide-block', {
                     setMessageType('success');
                     setSelectedPreset('');
                     // プリセット一覧を再取得
-                    return apiFetch({ path: '/wp-json/splide-block/v1/presets' });
+                    return apiFetch({ path: '/splide-block/v1/presets' });
                 })
                 .then((data) => {
                     setPresets(data);
