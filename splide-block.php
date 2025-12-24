@@ -37,7 +37,7 @@ function splide_block_register_rest_routes()
     ));
 
     // プリセットの削除
-    register_rest_route('splide-block/v1', '/presets/(?P<id>[a-zA-Z0-9-_]+)', array(
+    register_rest_route('splide-block/v1', '/presets/(?P<id>.+)', array(
         'methods' => 'DELETE',
         'callback' => 'splide_block_delete_preset',
         'permission_callback' => function () {
@@ -67,8 +67,8 @@ function splide_block_save_preset($request)
 
     $presets = get_option('splide_block_presets', array());
 
-    // プリセットIDを生成（名前をスラッグ化）
-    $preset_id = sanitize_title($preset_name);
+    // プリセットIDをタイムスタンプベースで生成（確実にユニーク）
+    $preset_id = 'preset_' . time() . '_' . wp_generate_password(6, false);
 
     $presets[$preset_id] = array(
         'name' => $preset_name,
