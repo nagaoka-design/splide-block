@@ -1,7 +1,9 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { Button, PanelBody, ToggleControl, RangeControl, SelectControl, TextControl, RadioControl } from '@wordpress/components';
+import { Button, PanelBody, ToggleControl, RangeControl, SelectControl, TextControl, RadioControl, Notice } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useState, useEffect } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
 registerBlockType('custom/splide-block', {
@@ -145,6 +147,110 @@ registerBlockType('custom/splide-block', {
             objectFit, cssMode
         } = attributes;
 
+        // プリセット機能のstate
+        const [presets, setPresets] = useState({});
+        const [selectedPreset, setSelectedPreset] = useState('');
+        const [newPresetName, setNewPresetName] = useState('');
+        const [message, setMessage] = useState('');
+        const [messageType, setMessageType] = useState('success');
+
+        // プリセット一覧を取得
+        useEffect(() => {
+            apiFetch({ path: '/wp-json/splide-block/v1/presets' })
+                .then((data) => {
+                    setPresets(data);
+                })
+                .catch((error) => {
+                    console.error('プリセット取得エラー:', error);
+                });
+        }, []);
+
+        // プリセットを読み込む
+        const loadPreset = () => {
+            if (!selectedPreset || !presets[selectedPreset]) {
+                setMessage('プリセットを選択してください');
+                setMessageType('error');
+                return;
+            }
+
+            const preset = presets[selectedPreset];
+            setAttributes(preset.settings);
+            setMessage(`「${preset.name}」を読み込みました`);
+            setMessageType('success');
+            setTimeout(() => setMessage(''), 3000);
+        };
+
+        // プリセットを保存
+        const savePreset = () => {
+            if (!newPresetName.trim()) {
+                setMessage('プリセット名を入力してください');
+                setMessageType('error');
+                return;
+            }
+
+            // imagesを除く全設定を保存
+            const { images, ...settingsToSave } = attributes;
+
+            apiFetch({
+                path: '/wp-json/splide-block/v1/presets',
+                method: 'POST',
+                data: {
+                    name: newPresetName,
+                    settings: settingsToSave
+                }
+            })
+                .then((response) => {
+                    setMessage(response.message);
+                    setMessageType('success');
+                    setNewPresetName('');
+                    // プリセット一覧を再取得
+                    return apiFetch({ path: '/wp-json/splide-block/v1/presets' });
+                })
+                .then((data) => {
+                    setPresets(data);
+                    setTimeout(() => setMessage(''), 3000);
+                })
+                .catch((error) => {
+                    setMessage('保存に失敗しました');
+                    setMessageType('error');
+                    console.error('プリセット保存エラー:', error);
+                });
+        };
+
+        // プリセットを削除
+        const deletePreset = () => {
+            if (!selectedPreset || !presets[selectedPreset]) {
+                setMessage('プリセットを選択してください');
+                setMessageType('error');
+                return;
+            }
+
+            if (!confirm(`「${presets[selectedPreset].name}」を削除しますか？`)) {
+                return;
+            }
+
+            apiFetch({
+                path: `/wp-json/splide-block/v1/presets/${selectedPreset}`,
+                method: 'DELETE'
+            })
+                .then((response) => {
+                    setMessage(response.message);
+                    setMessageType('success');
+                    setSelectedPreset('');
+                    // プリセット一覧を再取得
+                    return apiFetch({ path: '/wp-json/splide-block/v1/presets' });
+                })
+                .then((data) => {
+                    setPresets(data);
+                    setTimeout(() => setMessage(''), 3000);
+                })
+                .catch((error) => {
+                    setMessage('削除に失敗しました');
+                    setMessageType('error');
+                    console.error('プリセット削除エラー:', error);
+                });
+        };
+
         const onSelectImages = (media) => {
             setAttributes({
                 images: media.map(item => ({
@@ -165,7 +271,62 @@ registerBlockType('custom/splide-block', {
         return (
             <>
                 <InspectorControls>
-                    <PanelBody title={__('基本設定', 'splide-block')} initialOpen={true}>
+                    <PanelBody title={__('プリセット設定', 'splide-block')} initialOpen={true}>
+                        {message && (
+                            <Notice status={messageType} isDismissible={false}>
+                                {message}
+                            </Notice>
+                        )}
+
+                        <SelectControl
+                            label={__('保存済みプリセット', 'splide-block')}
+                            value={selectedPreset}
+                            options={[
+                                { label: '選択してください', value: '' },
+                                ...Object.keys(presets).map(key => ({
+                                    label: presets[key].name,
+                                    value: key
+                                }))
+                            ]}
+                            onChange={(value) => setSelectedPreset(value)}
+                        />
+
+                        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                            <Button
+                                variant="secondary"
+                                onClick={loadPreset}
+                                disabled={!selectedPreset}
+                            >
+                                {__('読み込み', 'splide-block')}
+                            </Button>
+                            <Button
+                                variant="secondary"
+                                onClick={deletePreset}
+                                disabled={!selectedPreset}
+                                isDestructive
+                            >
+                                {__('削除', 'splide-block')}
+                            </Button>
+                        </div>
+
+                        <hr style={{ margin: '16px 0' }} />
+
+                        <TextControl
+                            label={__('新規プリセット名', 'splide-block')}
+                            value={newPresetName}
+                            onChange={(value) => setNewPresetName(value)}
+                            placeholder="例: 16:9スライドショー"
+                        />
+                        <Button
+                            variant="primary"
+                            onClick={savePreset}
+                            disabled={!newPresetName.trim()}
+                        >
+                            {__('現在の設定を保存', 'splide-block')}
+                        </Button>
+                    </PanelBody>
+
+                    <PanelBody title={__('基本設定', 'splide-block')} initialOpen={false}>
                         <SelectControl
                             label={__('タイプ', 'splide-block')}
                             value={type}
