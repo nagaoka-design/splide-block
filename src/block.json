@@ -1,0 +1,135 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"name": "custom/splide-block",
+	"title": "Splideスライドショー",
+	"category": "media",
+	"icon": "images-alt2",
+	"description": "Splideスライドショー・カルーセルブロック",
+	"textdomain": "splide-block",
+	"attributes": {
+		"images": {
+			"type": "array",
+			"default": []
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"interval": {
+			"type": "number",
+			"default": 3000
+		},
+		"type": {
+			"type": "string",
+			"default": "loop"
+		},
+		"perPage": {
+			"type": "number",
+			"default": 1
+		},
+		"mediaQuery": {
+			"type": "string",
+			"default": "max"
+		},
+		"perPageTablet": {
+			"type": "number",
+			"default": 2
+		},
+		"perPageMobile": {
+			"type": "number",
+			"default": 1
+		},
+		"breakpointTablet": {
+			"type": "number",
+			"default": 768
+		},
+		"breakpointMobile": {
+			"type": "number",
+			"default": 480
+		},
+		"height": {
+			"type": "string",
+			"default": ""
+		},
+		"heightRatio": {
+			"type": "number",
+			"default": 0
+		},
+		"heightRatioTablet": {
+			"type": "number",
+			"default": 0
+		},
+		"heightRatioMobile": {
+			"type": "number",
+			"default": 0
+		},
+		"fixedWidth": {
+			"type": "string",
+			"default": ""
+		},
+		"fixedHeight": {
+			"type": "string",
+			"default": ""
+		},
+		"fixedWidthTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"fixedHeightTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"fixedWidthMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"fixedHeightMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"gap": {
+			"type": "string",
+			"default": "1rem"
+		},
+		"padding": {
+			"type": "string",
+			"default": "0"
+		},
+		"arrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"pagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"speed": {
+			"type": "number",
+			"default": 400
+		},
+		"rewind": {
+			"type": "boolean",
+			"default": false
+		},
+		"drag": {
+			"type": "boolean",
+			"default": true
+		},
+		"keyboard": {
+			"type": "boolean",
+			"default": false
+		},
+		"objectFit": {
+			"type": "string",
+			"default": "cover"
+		},
+		"cssMode": {
+			"type": "string",
+			"default": "standard"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

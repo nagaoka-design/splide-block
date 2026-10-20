@@ -1,0 +1,20 @@
+// フロント・エディター共通（block.json の style）
+// cssMode が none 以外のときだけキャプションの体裁を付ける
+.splide[data-cssmode]:not([data-cssmode="none"]) {
+	.splide__slide {
+		position: relative;
+	}
+
+	.splide__slide-caption {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.8);
+		padding: 0.25em 0.5em;
+		font-size: 1rem;
+		margin: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+}
