@@ -20,6 +20,10 @@ This plugin uses Splide.js (https://splidejs.com/) licensed under MIT License.
 
 == Changelog ==
 
+= 1.4.0 =
+
+- Prevent duplicate Splide loading to avoid conflicts and related errors
+
 = 1.3.0 =
 
 - Add preset settings feature (save, load, and delete custom configurations)

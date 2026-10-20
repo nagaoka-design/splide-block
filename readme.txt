@@ -20,6 +20,9 @@ This plugin uses Splide.js (https://splidejs.com/) licensed under MIT License.
 
 == Changelog ==
 
+= 1.4.0 =
+- Splideの二重読み込みを防ぎ、他のSplide読み込みとの競合によるエラーを回避
+
 = 1.3.0 =
 - プリセット設定機能を追加（設定の保存・読み込み・削除）
 - レスポンシブモード（デスクトップファースト/モバイルファースト）に応じたUI表示を改善
