@@ -1,6 +1,6 @@
 // フロント・エディター共通（block.json の style）
-// cssMode が none 以外のときだけキャプションの体裁を付ける
-.splide[data-cssmode]:not([data-cssmode="none"]) {
+// 条件は維持しつつ詳細度を抑え、利用者の独自classによる上書きを可能にする
+:where(.splide[data-cssmode]:not([data-cssmode="none"])) {
 	.splide__slide {
 		position: relative;
 	}
